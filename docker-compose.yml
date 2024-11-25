@@ -1,0 +1,56 @@
+version: '3.9'
+
+services:
+  postgres:
+    image: postgres
+    ports:
+      - "15432:5432"
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: sales_db
+    volumes:
+      - ./sale-config/db:/docker-entrypoint-initdb.d
+  sale-server:
+    build:
+      context: /sales-server
+      dockerfile: Dockerfile
+    ports:
+      - "8180:8180"
+    environment:
+      - ORDER_SERVICE_BASE_URL=host.docker.internal:8181
+      - PRODUCT_SERVICE_BASE_URL=host.docker.internal:8182
+      - USER_SERVICE_BASE_URL=host.docker.internal:8183
+  order-service:
+    build:
+      context: /sales-service/order-service
+      dockerfile: Dockerfile
+    ports:
+      - "8181:8181"
+    environment:
+      - DB_HOST=host.docker.internal
+      - DB_PORT=15432
+    depends_on:
+      - postgres
+  product-service:
+    build:
+      context: /sales-service/product-service
+      dockerfile: Dockerfile
+    ports:
+      - "8182:8182"
+    environment:
+      - DB_HOST=host.docker.internal
+      - DB_PORT=15432
+    depends_on:
+      - postgres
+  user-service:
+    build:
+      context: /sales-service/user-service
+      dockerfile: Dockerfile
+    ports:
+      - "8183:8183"
+    environment:
+      - DB_HOST=host.docker.internal
+      - DB_PORT=15432
+    depends_on:
+      - postgres
