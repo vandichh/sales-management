@@ -32,11 +32,11 @@ service:
     traces:
       receivers: [ otlp ]
       processors: [ batch ]
-      exporters: [ otlp ]
+      exporters: [logging, otlp ]
     metrics:
       receivers: [ otlp ]
       processors: [ batch ]
-      exporters: [ prometheus ]
+      exporters: [logging, prometheus ]
     logs:
       receivers: [ otlp ]
       exporters: [ loki ]
