@@ -1,6 +1,6 @@
 package com.example.sale_server.application.order.result;
 
-import com.example.sale_server.domain.order.result.OrderApiFindOrderResult;
+import com.example.sale_server.domain.coreapi.result.order.CoreApiFindOrderResult;
 import lombok.Builder;
 import lombok.Data;
 
@@ -17,6 +17,19 @@ public class FindOrderResult {
     public final String status;
     public final List<OrderItem> items;
 
+    public static FindOrderResult create(CoreApiFindOrderResult coreApiFindOrderResult) {
+        List<OrderItem> orderItems = coreApiFindOrderResult.items.stream().map(OrderItem::create).toList();
+
+        return FindOrderResult.builder()
+                .orderId(coreApiFindOrderResult.orderId)
+                .userId(coreApiFindOrderResult.userId)
+                .totalAmount(coreApiFindOrderResult.totalAmount)
+                .orderDate(coreApiFindOrderResult.orderDate)
+                .status(coreApiFindOrderResult.status)
+                .items(orderItems)
+                .build();
+    }
+
     @Data
     @Builder
     public static class OrderItem {
@@ -25,7 +38,7 @@ public class FindOrderResult {
         public final int quantity;
         public final double price;
 
-        public static OrderItem create(OrderApiFindOrderResult.OrderItem orderItem) {
+        public static OrderItem create(CoreApiFindOrderResult.OrderItem orderItem) {
             return OrderItem.builder()
                     .orderItemId(orderItem.orderItemId)
                     .productId(orderItem.productId)
@@ -33,18 +46,5 @@ public class FindOrderResult {
                     .price(orderItem.price)
                     .build();
         }
-    }
-
-    public static FindOrderResult create(OrderApiFindOrderResult orderApiFindOrderResult) {
-        List<OrderItem> orderItems = orderApiFindOrderResult.items.stream().map(OrderItem::create).toList();
-
-        return FindOrderResult.builder()
-                .orderId(orderApiFindOrderResult.orderId)
-                .userId(orderApiFindOrderResult.userId)
-                .totalAmount(orderApiFindOrderResult.totalAmount)
-                .orderDate(orderApiFindOrderResult.orderDate)
-                .status(orderApiFindOrderResult.status)
-                .items(orderItems)
-                .build();
     }
 }

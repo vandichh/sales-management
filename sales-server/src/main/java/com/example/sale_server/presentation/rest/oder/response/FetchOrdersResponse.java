@@ -9,13 +9,15 @@ import java.util.List;
 @Data
 @Builder
 public class FetchOrdersResponse {
-    List<FindOrderResponse> orders;
+    public final int total;
+    public final List<FindOrderResponse> orders;
 
     public static FetchOrdersResponse create(FetchOrdersResult fetchOrdersResult) {
         List<FindOrderResponse> findOrderResults = fetchOrdersResult.orderResults.stream().map(FindOrderResponse::create).toList();
 
         return FetchOrdersResponse.builder()
                 .orders(findOrderResults)
+                .total(findOrderResults.size())
                 .build();
     }
 }

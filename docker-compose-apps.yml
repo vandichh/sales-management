@@ -1,0 +1,30 @@
+version: '3.9'
+
+services:
+
+  sale-server:
+    build:
+      context: /sales-server
+      dockerfile: Dockerfile
+    ports:
+      - "8180:8180"
+    environment:
+      - CORE_APP_BASE_URL=http://sale-core:8181
+      - TRACING_EXPORT_ENDPOINT=http://collector:4318/v1/traces
+      - METRICS_EXPORT_ENDPOINT=http://collector:4318/v1/metrics
+      - LOGGING_EXPORT_ENDPOINT=http://collector:4317
+
+  sale-core:
+    build:
+      context: /sales-core
+      dockerfile: Dockerfile
+    ports:
+      - "8181:8181"
+    environment:
+      - DB_HOST=host.docker.internal
+      - DB_PORT=15432
+      - TRACING_EXPORT_ENDPOINT=http://collector:4318/v1/traces
+      - METRICS_EXPORT_ENDPOINT=http://collector:4318/v1/metrics
+      - LOGGING_EXPORT_ENDPOINT=http://collector:4317
+    depends_on:
+      - postgres
