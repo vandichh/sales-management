@@ -1,10 +1,8 @@
 package com.example.order_service.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -15,24 +13,25 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Order {
+public class OrderEntity {
     @Id
     @Column(name = "order_id")
-    private int orderId;
+    public int orderId;
 
     @Column(name = "user_id")
-    private String userId;
+    public String userId;
 
     @Column(name = "total_amount")
-    private int totalAmount;
+    public int totalAmount;
 
     @Column(name = "order_date")
-    private LocalDateTime orderDate;
+    public LocalDateTime orderDate;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
-    private OrderStatus status;
+    public OrderStatus status;
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
-    private List<OrderItem> items;
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference
+    public List<OrderItemEntity> items;
 }

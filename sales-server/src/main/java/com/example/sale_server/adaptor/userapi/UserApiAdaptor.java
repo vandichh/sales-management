@@ -1,10 +1,13 @@
 package com.example.sale_server.adaptor.userapi;
 
-import com.example.sale_server.domain.value.Either;
-import com.example.sale_server.domain.value.user.UserApi;
+import com.example.sale_server.adaptor.userapi.response.UserResponse;
+import com.example.sale_server.domain.user.UserApi;
+import com.example.sale_server.domain.user.result.UserResult;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.RequestEntity;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Component
 @RequiredArgsConstructor
@@ -18,8 +21,8 @@ public class UserApiAdaptor implements UserApi {
     }
 
     @Override
-    public void failure() {
-        RequestEntity<Void> request = this.support.initGet("/failure").build();
-        this.support.execute(request, Void.class);
+    public List<UserResult> getUsers() {
+        RequestEntity<Void> request = this.support.initGet("/users").build();
+        return this.support.execute(request, UserResponse.class).success().users;
     }
 }

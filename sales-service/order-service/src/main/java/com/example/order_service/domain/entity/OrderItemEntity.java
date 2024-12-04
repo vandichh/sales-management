@@ -1,5 +1,6 @@
 package com.example.order_service.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,22 +13,23 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class OrderItem {
+public class OrderItemEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "order_item_id")
-    private int orderItemId;
+    public int orderItemId;
 
     @Column(name = "product_id")
-    private int productId;
+    public int productId;
 
     @Column(name = "quantity")
-    private Integer quantity;
+    public int quantity;
 
     @Column(name = "price")
-    private double price;
+    public double price;
 
     @ManyToOne
     @JoinColumn(name = "order_id", referencedColumnName = "order_id", nullable = false)
-    private Order order;
+    @JsonBackReference
+    public OrderEntity order;
 }

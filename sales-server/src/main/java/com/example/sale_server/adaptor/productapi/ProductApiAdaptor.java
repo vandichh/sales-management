@@ -1,7 +1,6 @@
 package com.example.sale_server.adaptor.productapi;
 
-import com.example.sale_server.domain.value.Either;
-import com.example.sale_server.domain.value.product.ProductApi;
+import com.example.sale_server.domain.product.ProductApi;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.RequestEntity;
 import org.springframework.stereotype.Component;
