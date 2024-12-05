@@ -15,6 +15,6 @@ public class ProductResource {
 
     @GetMapping("")
     public FetchProductsResponse fetchProducts() {
-        return FetchProductsResponse.create(productApplication.fetchProducts());
+        return FetchProductsResponse.initResponse(productApplication.fetchProducts());
     }
 }

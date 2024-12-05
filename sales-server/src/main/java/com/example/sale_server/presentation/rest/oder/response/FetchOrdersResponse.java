@@ -12,8 +12,8 @@ public class FetchOrdersResponse {
     public final int total;
     public final List<FindOrderResponse> orders;
 
-    public static FetchOrdersResponse create(FetchOrdersResult fetchOrdersResult) {
-        List<FindOrderResponse> findOrderResults = fetchOrdersResult.orderResults.stream().map(FindOrderResponse::create).toList();
+    public static FetchOrdersResponse initResponse(FetchOrdersResult fetchOrdersResult) {
+        List<FindOrderResponse> findOrderResults = fetchOrdersResult.orderResults.stream().map(FindOrderResponse::initResponse).toList();
 
         return FetchOrdersResponse.builder()
                 .orders(findOrderResults)

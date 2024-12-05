@@ -16,7 +16,7 @@ public class FindUserResult {
     public final boolean isActive;
     public final String roleId;
 
-    public static FindUserResult create(UserEntitty userEntitty) {
+    public static FindUserResult initResult(UserEntitty userEntitty) {
         return FindUserResult.builder()
                 .userId(userEntitty.getUserId())
                 .username(userEntitty.getUsername())

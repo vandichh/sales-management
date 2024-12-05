@@ -16,7 +16,7 @@ public class FindUserResponse {
     public final boolean isActive;
     public final String roleId;
 
-    public static FindUserResponse create(FindUserResult findUserResult) {
+    public static FindUserResponse initResponse(FindUserResult findUserResult) {
         return FindUserResponse.builder()
                 .userId(findUserResult.getUserId())
                 .username(findUserResult.getUsername())

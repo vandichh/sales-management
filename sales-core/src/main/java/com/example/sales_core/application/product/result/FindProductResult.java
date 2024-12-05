@@ -13,7 +13,7 @@ public class FindProductResult {
     public final double price;
     public final int quantity;
 
-    public static FindProductResult create(ProductEntity productEntity) {
+    public static FindProductResult initResult(ProductEntity productEntity) {
         return FindProductResult.builder()
                 .productId(productEntity.getProductId())
                 .name(productEntity.getName())

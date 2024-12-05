@@ -11,9 +11,9 @@ import java.util.List;
 public class FetchProductsResult {
     public final List<FindProductResult> products;
 
-    public static FetchProductsResult create(CoreApiFetchProductsResult coreApiFetchProductsResult) {
+    public static FetchProductsResult initResult(CoreApiFetchProductsResult coreApiFetchProductsResult) {
         List<FindProductResult> productResults = coreApiFetchProductsResult.products.stream()
-                .map(FindProductResult::create).toList();
+                .map(FindProductResult::initResult).toList();
 
         return FetchProductsResult.builder()
                 .products(productResults)

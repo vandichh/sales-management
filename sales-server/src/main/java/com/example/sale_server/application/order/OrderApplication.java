@@ -18,6 +18,6 @@ public class OrderApplication {
             throw new RuntimeException("Fetch orders failed");
         }
         CoreApiFetchOrdersResult coreApiFetchOrdersResult = either.success();
-        return FetchOrdersResult.create(coreApiFetchOrdersResult);
+        return FetchOrdersResult.initResult(coreApiFetchOrdersResult);
     }
 }

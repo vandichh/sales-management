@@ -12,9 +12,9 @@ public class FetchProductsResponse {
     public final int total;
     public final List<FindProductResponse> products;
 
-    public static FetchProductsResponse create(FetchProductsResult fetchProductsResult) {
+    public static FetchProductsResponse initResponse(FetchProductsResult fetchProductsResult) {
         List<FindProductResponse> productResults = fetchProductsResult.products.stream()
-                .map(FindProductResponse::create).toList();
+                .map(FindProductResponse::initResponse).toList();
 
         return FetchProductsResponse.builder()
                 .products(productResults)

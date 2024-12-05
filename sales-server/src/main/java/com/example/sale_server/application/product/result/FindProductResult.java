@@ -13,7 +13,7 @@ public class FindProductResult {
     public final double price;
     public final int quantity;
 
-    public static FindProductResult create(CoreApiFindProductResult coreApiFindProductResult) {
+    public static FindProductResult initResult(CoreApiFindProductResult coreApiFindProductResult) {
         return FindProductResult.builder()
                 .productId(coreApiFindProductResult.getProductId())
                 .name(coreApiFindProductResult.getName())

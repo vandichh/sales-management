@@ -6,4 +6,8 @@ import java.util.List;
 
 public interface OrderRepository {
     List<OrderEntity> findAll();
+
+    OrderEntity findById(int id);
+
+    OrderEntity save(OrderEntity order);
 }

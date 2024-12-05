@@ -11,8 +11,8 @@ import java.util.List;
 public class FetchUsersResult {
     public final List<FindUserResult> users;
 
-    public static FetchUsersResult create(List<UserEntitty> users) {
-        List<FindUserResult> usersResult = users.stream().map(FindUserResult::create).toList();
+    public static FetchUsersResult initResult(List<UserEntitty> users) {
+        List<FindUserResult> usersResult = users.stream().map(FindUserResult::initResult).toList();
         return FetchUsersResult.builder()
                 .users(usersResult)
                 .build();

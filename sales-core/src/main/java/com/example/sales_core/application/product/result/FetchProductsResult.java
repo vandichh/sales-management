@@ -11,8 +11,8 @@ import java.util.List;
 public class FetchProductsResult {
     public final List<FindProductResult> products;
 
-    public static FetchProductsResult create(List<ProductEntity> productEntities) {
-        List<FindProductResult> products = productEntities.stream().map(FindProductResult::create).toList();
+    public static FetchProductsResult initResult(List<ProductEntity> productEntities) {
+        List<FindProductResult> products = productEntities.stream().map(FindProductResult::initResult).toList();
         return FetchProductsResult.builder()
                 .products(products)
                 .build();

@@ -12,8 +12,8 @@ public class FetchUsersResponse {
     public final int total;
     public final List<FindUserResponse> users;
 
-    public static FetchUsersResponse create(FetchUsersResult coreApiFetchUsersResult) {
-        List<FindUserResponse> users = coreApiFetchUsersResult.users.stream().map(FindUserResponse::create).toList();
+    public static FetchUsersResponse initResponse(FetchUsersResult coreApiFetchUsersResult) {
+        List<FindUserResponse> users = coreApiFetchUsersResult.users.stream().map(FindUserResponse::initResponse).toList();
         return FetchUsersResponse.builder()
                 .users(users)
                 .total(users.size())

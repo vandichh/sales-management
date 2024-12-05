@@ -17,7 +17,7 @@ public class FindOrderResult {
     public final String status;
     public final List<OrderItem> items;
 
-    public static FindOrderResult create(CoreApiFindOrderResult coreApiFindOrderResult) {
+    public static FindOrderResult initResult(CoreApiFindOrderResult coreApiFindOrderResult) {
         List<OrderItem> orderItems = coreApiFindOrderResult.items.stream().map(OrderItem::create).toList();
 
         return FindOrderResult.builder()

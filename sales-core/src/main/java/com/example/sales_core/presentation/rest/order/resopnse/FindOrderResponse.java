@@ -17,7 +17,7 @@ public class FindOrderResponse {
     public final String status;
     public final List<OrderItem> items;
 
-    public static FindOrderResponse create(FindOrderResult findOrderResult) {
+    public static FindOrderResponse initResponse(FindOrderResult findOrderResult) {
         List<OrderItem> orderItems = findOrderResult.items.stream().map(OrderItem::create).toList();
 
         return FindOrderResponse.builder()

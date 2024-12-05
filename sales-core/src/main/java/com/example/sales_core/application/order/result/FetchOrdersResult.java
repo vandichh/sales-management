@@ -11,8 +11,8 @@ import java.util.List;
 public class FetchOrdersResult {
     public final List<FindOrderResult> orderResults;
 
-    public static FetchOrdersResult create(List<OrderEntity> orderEntities) {
-        List<FindOrderResult> orderResultList = orderEntities.stream().map(FindOrderResult::create).toList();
+    public static FetchOrdersResult initResult(List<OrderEntity> orderEntities) {
+        List<FindOrderResult> orderResultList = orderEntities.stream().map(FindOrderResult::initResult).toList();
 
         return FetchOrdersResult.builder()
                 .orderResults(orderResultList)

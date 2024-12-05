@@ -11,8 +11,8 @@ import java.util.List;
 public class FetchUsersResult {
     public final List<FindUserResult> users;
 
-    public static FetchUsersResult create(CoreApiFetchUsersResult coreApiFetchUsersResult) {
-        List<FindUserResult> users = coreApiFetchUsersResult.users.stream().map(FindUserResult::create).toList();
+    public static FetchUsersResult initResult(CoreApiFetchUsersResult coreApiFetchUsersResult) {
+        List<FindUserResult> users = coreApiFetchUsersResult.users.stream().map(FindUserResult::initResult).toList();
         return FetchUsersResult.builder()
                 .users(users)
                 .build();

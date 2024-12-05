@@ -6,4 +6,8 @@ import java.util.List;
 
 public interface UserRepository {
     List<UserEntitty> findAll();
+
+    UserEntitty findById(String id);
+
+    UserEntitty save(UserEntitty userEntitty);
 }

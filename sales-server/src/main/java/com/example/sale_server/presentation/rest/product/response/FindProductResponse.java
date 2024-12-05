@@ -13,7 +13,7 @@ public class FindProductResponse {
     public final double price;
     public final int quantity;
 
-    public static FindProductResponse create(FindProductResult findProductResult) {
+    public static FindProductResponse initResponse(FindProductResult findProductResult) {
         return FindProductResponse.builder()
                 .productId(findProductResult.getProductId())
                 .name(findProductResult.getName())

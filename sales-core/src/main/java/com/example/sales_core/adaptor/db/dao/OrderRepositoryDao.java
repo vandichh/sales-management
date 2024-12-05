@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Component;
 
 @Component
-public interface OrderRepositoryDao extends JpaRepository<OrderEntity, Long> {
+public interface OrderRepositoryDao extends JpaRepository<OrderEntity, Integer> {
 }

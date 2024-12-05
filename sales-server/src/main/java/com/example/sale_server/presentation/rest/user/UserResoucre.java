@@ -14,7 +14,7 @@ public class UserResoucre {
     private final UserApplication userApplication;
 
     @GetMapping("")
-    public FetchUsersResponse fetchProducts() {
-        return FetchUsersResponse.create(userApplication.fetchUsers());
+    public FetchUsersResponse fetchUsers() {
+        return FetchUsersResponse.initResponse(userApplication.fetchUsers());
     }
 }

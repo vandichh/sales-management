@@ -18,6 +18,6 @@ public class ProductApplication {
             throw new RuntimeException();
         }
         CoreApiFetchProductsResult coreApiFetchOrdersResult = either.success();
-        return FetchProductsResult.create(coreApiFetchOrdersResult);
+        return FetchProductsResult.initResult(coreApiFetchOrdersResult);
     }
 }

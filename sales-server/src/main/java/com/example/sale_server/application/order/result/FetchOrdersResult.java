@@ -11,8 +11,8 @@ import java.util.List;
 public class FetchOrdersResult {
     public final List<FindOrderResult> orderResults;
 
-    public static FetchOrdersResult create(CoreApiFetchOrdersResult coreApiFetchOrdersResult) {
-        List<FindOrderResult> orderResultList = coreApiFetchOrdersResult.orders.stream().map(FindOrderResult::create).toList();
+    public static FetchOrdersResult initResult(CoreApiFetchOrdersResult coreApiFetchOrdersResult) {
+        List<FindOrderResult> orderResultList = coreApiFetchOrdersResult.orders.stream().map(FindOrderResult::initResult).toList();
 
         return FetchOrdersResult.builder()
                 .orderResults(orderResultList)

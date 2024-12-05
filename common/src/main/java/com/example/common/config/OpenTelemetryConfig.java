@@ -1,7 +1,9 @@
 package com.example.common.config;
 
 import io.opentelemetry.api.OpenTelemetry;
+import io.opentelemetry.api.common.AttributeType;
 import io.opentelemetry.api.common.Attributes;
+import io.opentelemetry.api.internal.InternalAttributeKeyImpl;
 import io.opentelemetry.context.propagation.ContextPropagators;
 import io.opentelemetry.exporter.otlp.logs.OtlpGrpcLogRecordExporter;
 import io.opentelemetry.exporter.otlp.trace.OtlpGrpcSpanExporter;
@@ -14,7 +16,6 @@ import io.opentelemetry.sdk.logs.export.BatchLogRecordProcessor;
 import io.opentelemetry.sdk.resources.Resource;
 import io.opentelemetry.sdk.trace.SdkTracerProvider;
 import io.opentelemetry.sdk.trace.export.SimpleSpanProcessor;
-import io.opentelemetry.semconv.ResourceAttributes;
 import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -26,29 +27,46 @@ public class OpenTelemetryConfig {
     @Value("${logging.export.endpoint}")
     public String loggingEndpoint;
 
+    @Value("${spring.application.name}")
+    public String applicationName;
+
     @Bean
     OpenTelemetry openTelemetry(SdkLoggerProvider sdkLoggerProvider, SdkTracerProvider sdkTracerProvider, ContextPropagators contextPropagators) {
         OpenTelemetrySdk openTelemetrySdk = OpenTelemetrySdk.builder()
                 .setLoggerProvider(sdkLoggerProvider)
                 .setTracerProvider(sdkTracerProvider)
                 .setPropagators(contextPropagators)
-                .build();
+                .buildAndRegisterGlobal();
         OpenTelemetryAppender.install(openTelemetrySdk);
         return openTelemetrySdk;
     }
 
     @Bean
-    SdkLoggerProvider otelSdkLoggerProvider(Environment environment, ObjectProvider<LogRecordProcessor> logRecordProcessors) {
-        String applicationName = environment.getProperty("spring.application.name", "application");
-        Resource springResource = Resource.create(Attributes.of(ResourceAttributes.SERVICE_NAME, applicationName));
+    SdkLoggerProvider otelSdkLoggerProvider(Resource resource, ObjectProvider<LogRecordProcessor> logRecordProcessors) {
         SdkLoggerProviderBuilder builder = SdkLoggerProvider.builder()
-                .setResource(Resource.getDefault().merge(springResource));
+                .setResource(resource);
         logRecordProcessors.orderedStream().forEach(builder::addLogRecordProcessor);
         return builder.build();
     }
 
     @Bean
-    LogRecordProcessor otelLogRecordProcessor() {
+    SdkTracerProvider sdkTracerProvider(Resource resource) {
+        return SdkTracerProvider.builder()
+                .addSpanProcessor(SimpleSpanProcessor.create(OtlpGrpcSpanExporter.builder()
+                        .setEndpoint(loggingEndpoint)
+                        .build()))
+                .setResource(resource)
+                .build();
+    }
+
+    @Bean
+    Resource otelResource() {
+        return Resource.create(Attributes.of(InternalAttributeKeyImpl
+                .create("service.name", AttributeType.STRING), applicationName));
+    }
+
+    @Bean
+    LogRecordProcessor otelLogRecordProcessor(Environment environment) {
         return BatchLogRecordProcessor
                 .builder(
                         OtlpGrpcLogRecordExporter.builder()

@@ -19,6 +19,6 @@ public class UserApplication {
             throw new RuntimeException();
         }
         CoreApiFetchUsersResult coreApiFetchOrdersResult = either.success();
-        return FetchUsersResult.create(coreApiFetchOrdersResult);
+        return FetchUsersResult.initResult(coreApiFetchOrdersResult);
     }
 }

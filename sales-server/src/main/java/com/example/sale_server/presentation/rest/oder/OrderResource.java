@@ -14,7 +14,7 @@ public class OrderResource {
     private final OrderApplication orderApplication;
 
     @GetMapping("")
-    public FetchOrdersResponse getOrders() {
-        return FetchOrdersResponse.create(orderApplication.fetchOrders());
+    public FetchOrdersResponse fetchOrders() {
+        return FetchOrdersResponse.initResponse(orderApplication.fetchOrders());
     }
 }

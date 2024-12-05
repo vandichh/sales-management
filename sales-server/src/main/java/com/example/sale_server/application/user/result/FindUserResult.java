@@ -16,7 +16,7 @@ public class FindUserResult {
     public final boolean isActive;
     public final String roleId;
 
-    public static FindUserResult create(CoreApiFindUserResult coreApiFindUserResult) {
+    public static FindUserResult initResult(CoreApiFindUserResult coreApiFindUserResult) {
         return FindUserResult.builder()
                 .userId(coreApiFindUserResult.getUserId())
                 .username(coreApiFindUserResult.getUsername())

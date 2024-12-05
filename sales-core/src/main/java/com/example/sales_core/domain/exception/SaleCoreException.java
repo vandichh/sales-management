@@ -12,4 +12,6 @@ public abstract class SaleCoreException extends RuntimeException {
     public SaleCoreException(String message, Throwable cause) {
         super(message, cause);
     }
+
+    public abstract int getCode();
 }

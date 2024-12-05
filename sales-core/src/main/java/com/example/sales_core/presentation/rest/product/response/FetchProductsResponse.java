@@ -12,8 +12,8 @@ public class FetchProductsResponse {
     public final int total;
     public final List<FindProductResponse> products;
 
-    public static FetchProductsResponse create(FetchProductsResult fetchProductsResult) {
-        List<FindProductResponse> products = fetchProductsResult.products.stream().map(FindProductResponse::create).toList();
+    public static FetchProductsResponse initResponse(FetchProductsResult fetchProductsResult) {
+        List<FindProductResponse> products = fetchProductsResult.products.stream().map(FindProductResponse::initResponse).toList();
         return FetchProductsResponse.builder()
                 .products(products)
                 .build();
