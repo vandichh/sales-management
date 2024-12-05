@@ -11,6 +11,6 @@ public class ProductApplication {
     private final ProductRepository productRepository;
 
     public FetchProductsResult fetchProducts() {
-        return FetchProductsResult.create();
+        return FetchProductsResult.create(productRepository.findAll());
     }
 }
