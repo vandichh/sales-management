@@ -1,5 +1,7 @@
 package com.example.sale_server.domain.exception;
 
+import com.example.common.domain.MessageCode;
+
 public abstract class SaleServerException extends RuntimeException {
     public SaleServerException(String message) {
         super(message);
@@ -13,5 +15,5 @@ public abstract class SaleServerException extends RuntimeException {
         super(message, cause);
     }
 
-    public abstract int getCode();
+    public abstract MessageCode getMessageCode();
 }

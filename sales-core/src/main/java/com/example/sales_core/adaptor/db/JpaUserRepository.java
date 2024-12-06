@@ -2,7 +2,7 @@ package com.example.sales_core.adaptor.db;
 
 import com.example.sales_core.adaptor.db.dao.UserRepositoryDao;
 import com.example.sales_core.domain.entity.user.UserEntitty;
-import com.example.sales_core.domain.exception.ResoucreNotFoundException;
+import com.example.sales_core.domain.exception.ResourceNotFoundException;
 import com.example.sales_core.domain.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -24,7 +24,7 @@ public class JpaUserRepository implements UserRepository {
     public UserEntitty findById(String id) {
         Optional<UserEntitty> optionalUserEntity = userRepositoryDao.findById(id);
         if (optionalUserEntity.isEmpty()) {
-            throw new ResoucreNotFoundException("User not found");
+            throw new ResourceNotFoundException("User not found");
         }
         return optionalUserEntity.get();
     }

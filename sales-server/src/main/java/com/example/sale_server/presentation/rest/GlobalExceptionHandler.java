@@ -1,46 +1,68 @@
 package com.example.sale_server.presentation.rest;
 
+import com.example.common.domain.MessageCode;
+import com.example.sale_server.domain.exception.SaleServerException;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.context.request.WebRequest;
-
-import java.util.HashMap;
-import java.util.Map;
+import org.springframework.web.client.HttpClientErrorException;
 
 @RestControllerAdvice
+@Slf4j
 public class GlobalExceptionHandler {
 
+    @ExceptionHandler(SaleServerException.class)
+    public ResponseEntity<Object> handleApplicationFailure(SaleServerException exception) {
+        MessageCode messageCode = exception.getMessageCode();
+        HttpStatus httpStatus = messageCode.getHttpStatus();
+
+        if (httpStatus.is5xxServerError()) {
+            log.error("System error occurred.", exception);
+        } else {
+            log.warn(exception.getMessage());
+        }
+
+        return this.createResponse(httpStatus, messageCode, exception);
+    }
+
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<Map<String, Object>> handleGenericException(Exception ex, WebRequest request) {
-        Map<String, Object> response = new HashMap<>();
-        response.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value());
-        response.put("error", "Internal Server Error");
-        response.put("message", ex.getMessage());
-        response.put("path", request.getDescription(false).replace("uri=", ""));
-        return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+    public ResponseEntity<Object> handleSystemError(Exception exception) {
+        log.error("System error occurred.", exception);
+        return this.createResponse(HttpStatus.INTERNAL_SERVER_ERROR, MessageCode.UNEXPECTED_SYSTEM_ERROR, exception);
     }
 
-    @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<Map<String, Object>> handleIllegalArgumentException(IllegalArgumentException ex, WebRequest request) {
-        Map<String, Object> response = new HashMap<>();
-        response.put("status", HttpStatus.BAD_REQUEST.value());
-        response.put("error", "Bad Request");
-        response.put("message", ex.getMessage());
-        response.put("path", request.getDescription(false).replace("uri=", ""));
-        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    @ExceptionHandler(HttpClientErrorException.class)
+    public ResponseEntity<Object> handleClientError(HttpClientErrorException exception) {
+        log.error("HttpClientErrorException error occurred.", exception);
+        return this.createResponse(HttpStatus.BAD_REQUEST, MessageCode.BAD_REQUEST, exception.getMessage());
     }
 
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Map<String, Object>> handleValidationExceptions(MethodArgumentNotValidException ex, WebRequest request) {
-        Map<String, Object> response = new HashMap<>();
-        response.put("status", HttpStatus.BAD_REQUEST.value());
-        response.put("error", "Validation Error");
-        response.put("message", ex.getBindingResult().getAllErrors().get(0).getDefaultMessage());
-        response.put("path", request.getDescription(false).replace("uri=", ""));
-        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+    private ResponseEntity<Object> createResponse(HttpStatusCode httpStatusCode, MessageCode messageCode, Exception exception) {
+        String message = messageCode.getMessage();
+        if (message == null) {
+            message = exception.getMessage();
+        }
+
+        return new ResponseEntity<>(new ErrorResponse(messageCode.getCode(), message), httpStatusCode);
+    }
+
+    private ResponseEntity<Object> createResponse(HttpStatusCode httpStatusCode, MessageCode messageCode, String errorMessage) {
+        return new ResponseEntity<>(new ErrorResponse(messageCode.getCode(), errorMessage), httpStatusCode);
+    }
+
+    public static class ErrorResponse {
+
+        public final String errorCode;
+
+        public final String message;
+
+        ErrorResponse(String errorCode, String message) {
+            this.errorCode = errorCode;
+            this.message = message;
+        }
     }
 
 }

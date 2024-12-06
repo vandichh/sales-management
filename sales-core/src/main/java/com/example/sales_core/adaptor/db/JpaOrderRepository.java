@@ -2,7 +2,7 @@ package com.example.sales_core.adaptor.db;
 
 import com.example.sales_core.adaptor.db.dao.OrderRepositoryDao;
 import com.example.sales_core.domain.entity.order.OrderEntity;
-import com.example.sales_core.domain.exception.ResoucreNotFoundException;
+import com.example.sales_core.domain.exception.ResourceNotFoundException;
 import com.example.sales_core.domain.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -24,7 +24,7 @@ public class JpaOrderRepository implements OrderRepository {
     public OrderEntity findById(int id) {
         Optional<OrderEntity> optionalOrderEntity = orderRepositoryDao.findById(id);
         if (optionalOrderEntity.isEmpty()) {
-            throw new ResoucreNotFoundException("Order not found");
+            throw new ResourceNotFoundException("Order not found");
         }
         return optionalOrderEntity.get();
     }

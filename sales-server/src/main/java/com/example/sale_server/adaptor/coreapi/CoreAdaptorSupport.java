@@ -14,8 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
-import java.net.URI;
-
 @Component
 @Slf4j
 public class CoreAdaptorSupport {
@@ -33,8 +31,8 @@ public class CoreAdaptorSupport {
                 .header("Authorization", "token...");
     }
 
-    public RequestEntity.BodyBuilder initPost(URI uri) {
-        return RequestEntity.post(uri)
+    public RequestEntity.BodyBuilder initPost(String path) {
+        return RequestEntity.post(path)
                 .contentType(MediaType.APPLICATION_JSON)
                 .header("Authorization", "token...");
     }
