@@ -43,12 +43,12 @@ service:
     traces:
       receivers: [ otlp ]
       processors: [ batch ]
-      exporters: [logging, otlp, datadog ]
+      exporters: [ otlp, datadog ]
     metrics:
       receivers: [ otlp ]
       processors: [ batch ]
       exporters: [ prometheus, datadog ]
     logs:
       receivers: [ otlp ]
-      exporters: [ loki ]
+      exporters: [ loki, datadog ]
 

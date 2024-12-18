@@ -6,11 +6,19 @@ Thực hiện các bước sau:
 
 1. Truy cập vào **Git Bash** và chạy lệnh:
    ```bash
-   cd ./docker
+   cd ./scripts
    ```
    sau đó chạy file script để khởi tạo tất cả container cần thiết
     ```bash
    ./run-all-container.sh
+   ```
+   ngoài ra có thể dùng các lệnh sau, restart các infra containers
+    ```bash
+   ./restart-infra-containers.sh
+   ```
+   rebuild services
+    ```bash
+   ./rebuild-apps-containers.sh
    ```
 2. Đợi các container chạy xong, kiểm tra server bằng cách gọi API sau:
    ```bash

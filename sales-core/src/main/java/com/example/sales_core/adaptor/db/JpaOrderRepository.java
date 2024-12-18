@@ -33,4 +33,9 @@ public class JpaOrderRepository implements OrderRepository {
     public OrderEntity save(OrderEntity order) {
         return orderRepositoryDao.save(order);
     }
+
+    @Override
+    public void update(String orderId) {
+        orderRepositoryDao.updateUserName(orderId, "test");
+    }
 }

@@ -4,10 +4,7 @@ import com.example.sales_core.application.order.OrderApplication;
 import com.example.sales_core.presentation.rest.order.resopnse.FetchOrdersResponse;
 import com.example.sales_core.presentation.rest.order.resopnse.FindOrderResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/orders")
@@ -23,5 +20,10 @@ public class OrderResource {
     @GetMapping("/{id}")
     public FindOrderResponse findOrder(@PathVariable int id) {
         return FindOrderResponse.initResponse(orderApplication.findOrder(id));
+    }
+
+    @PutMapping("/{id}")
+    public void findOrder(@PathVariable String id) {
+        orderApplication.updaeOrder(id);
     }
 }

@@ -18,4 +18,8 @@ public class OrderApplication {
     public FindOrderResult findOrder(int id) {
         return FindOrderResult.initResult(orderRepository.findById(id));
     }
+
+    public void updaeOrder(String id) {
+        orderRepository.update(id);
+    }
 }

@@ -10,4 +10,6 @@ public interface OrderRepository {
     OrderEntity findById(int id);
 
     OrderEntity save(OrderEntity order);
+
+    void update(String orderId);
 }
