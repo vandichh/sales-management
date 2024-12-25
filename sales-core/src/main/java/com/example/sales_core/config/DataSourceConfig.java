@@ -1,7 +1,8 @@
 package com.example.sales_core.config;
 
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
 import io.opentelemetry.instrumentation.jdbc.datasource.OpenTelemetryDataSource;
-import org.postgresql.ds.PGSimpleDataSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -11,10 +12,12 @@ import javax.sql.DataSource;
 public class DataSourceConfig {
     @Bean
     public DataSource dataSource(DataSourceProperties properties) {
-        PGSimpleDataSource pgDataSource = new PGSimpleDataSource();
-        pgDataSource.setURL(properties.url);
-        pgDataSource.setUser(properties.username);
-        pgDataSource.setPassword(properties.password);
-        return new OpenTelemetryDataSource(pgDataSource);
+        HikariConfig hikariConfig = new HikariConfig();
+        hikariConfig.setJdbcUrl(properties.url);
+        hikariConfig.setUsername(properties.username);
+        hikariConfig.setPassword(properties.password);
+
+        HikariDataSource hikariDataSource = new HikariDataSource(hikariConfig);
+        return new OpenTelemetryDataSource(hikariDataSource);
     }
 }

@@ -24,5 +24,3 @@ services:
       - TRACING_EXPORT_ENDPOINT=http://collector:4318/v1/traces
       - METRICS_EXPORT_ENDPOINT=http://collector:4318/v1/metrics
       - LOGGING_EXPORT_ENDPOINT=http://collector:4317
-    depends_on:
-      - postgres
