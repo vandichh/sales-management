@@ -1,6 +1,7 @@
 services:
   postgres:
     image: postgres
+    container_name: postgres
     ports:
       - "15432:5432"
     environment:
@@ -12,6 +13,7 @@ services:
 
   collector:
     image: otel/opentelemetry-collector-contrib
+    container_name: collector
     command:
       - --config=/etc/otelcol-contrib/otel-collector.yml
     volumes:
@@ -26,6 +28,7 @@ services:
 
   prometheus:
     image: prom/prometheus
+    container_name: prometheus
     ports:
       - "9909:9090"
     volumes:
@@ -45,6 +48,7 @@ services:
 
   tempo:
     image: grafana/tempo:latest
+    container_name: tempo
     command: [ "-config.file=/etc/tempo.yml" ]
     volumes:
       - ./sale-config/tempo/tempo.yml:/etc/tempo.yml
@@ -54,6 +58,7 @@ services:
 
   loki:
     image: grafana/loki:latest
+    container_name: loki
     command: -config.file=/etc/loki/local-config.yaml
     ports:
       - "3100:3100"

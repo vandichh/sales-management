@@ -2,7 +2,7 @@ services:
 
   sale-server:
     build:
-      context: /sales-server
+      context: ./sales-server
       dockerfile: Dockerfile
     ports:
       - "8180:8180"
@@ -14,7 +14,7 @@ services:
 
   sale-core:
     build:
-      context: /sales-core
+      context: ./sales-core
       dockerfile: Dockerfile
     ports:
       - "8181:8181"

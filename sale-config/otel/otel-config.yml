@@ -10,17 +10,17 @@ processors:
   batch:
 
 exporters:
-  datadog:
-    api:
-      key: "key"
-      site: "ap1.datadoghq.com"
-    metrics:
-      sums:
-        cumulative_monotonic_mode: to_delta
-      summaries:
-        mode: "gauges"
-    traces:
-      span_name_as_resource_name: true
+#  datadog:
+#    api:
+#      key: "key"
+#      site: "ap1.datadoghq.com"
+#    metrics:
+#      sums:
+#        cumulative_monotonic_mode: to_delta
+#      summaries:
+#        mode: "gauges"
+#    traces:
+#      span_name_as_resource_name: true
   debug:
     verbosity: detailed
   prometheus:
@@ -45,12 +45,12 @@ service:
     traces:
       receivers: [ otlp ]
       processors: [ batch ]
-      exporters: [ otlp, datadog ]
+      exporters: [ otlp ]
     metrics:
       receivers: [ otlp ]
       processors: [ batch ]
-      exporters: [ prometheus, datadog ]
+      exporters: [ prometheus ]
     logs:
       receivers: [ otlp ]
-      exporters: [ loki, datadog ]
+      exporters: [ loki ]
 
